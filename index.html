@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/>
+  <meta name="description" content="Registro y seguimiento formativo de destrezas y prácticas clínicas de Enfermería"/>
+  <title>EnfermePráctica · Bitácora Formativa</title>
+
+  <!-- Google Fonts: Plus Jakarta Sans & Material Symbols -->
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "surface": "#f8f9ff",
+            "surface-dim": "#cbdbf5",
+            "surface-bright": "#f8f9ff",
+            "surface-container-lowest": "#ffffff",
+            "surface-container-low": "#eff4ff",
+            "surface-container": "#e5eeff",
+            "surface-container-high": "#dce9ff",
+            "surface-container-highest": "#d3e4fe",
+            "on-surface": "#0b1c30",
+            "on-surface-variant": "#3d4947",
+            "outline": "#6d7a77",
+            "outline-variant": "#bcc9c6",
+            "primary": "#00685f",
+            "on-primary": "#ffffff",
+            "primary-container": "#008378",
+            "on-primary-container": "#f4fffc",
+            "primary-fixed": "#89f5e7",
+            "primary-fixed-dim": "#6bd8cb",
+            "secondary": "#006c49",
+            "on-secondary": "#ffffff",
+            "secondary-container": "#6cf8bb",
+            "on-secondary-container": "#00714d",
+            "secondary-fixed": "#6ffbbe",
+            "secondary-fixed-dim": "#4edea3",
+            "tertiary": "#825100",
+            "on-tertiary": "#ffffff",
+            "tertiary-container": "#a36700",
+            "on-tertiary-container": "#fffbff",
+            "tertiary-fixed": "#ffddb8",
+            "tertiary-fixed-dim": "#ffb95f",
+            "error": "#ba1a1a",
+            "error-container": "#ffdad6"
+          },
+          fontFamily: {
+            sans: ["Plus Jakarta Sans", "sans-serif"]
+          }
+        }
+      }
+    };
+  </script>
+
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      overscroll-behavior: none;
+    }
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+    .icon-fill {
+      font-variation-settings: 'FILL' 1;
+    }
+  </style>
+</head>
+
+<body class="bg-surface text-on-surface flex flex-col min-h-screen pb-20 select-none">
+
+  <!-- TOP APP BAR -->
+  <header class="fixed top-0 left-0 right-0 z-40 bg-surface/90 backdrop-blur-md border-b border-surface-container-high/60 transition-all">
+    <div class="max-w-md mx-auto h-16 px-4 flex items-center justify-between">
+      <div class="flex items-center gap-2.5">
+        <div class="w-10 h-10 rounded-xl bg-primary-container flex items-center justify-center text-on-primary shadow-sm">
+          <span class="material-symbols-outlined text-[24px]">medical_services</span>
+        </div>
+        <div class="flex flex-col">
+          <div class="flex items-center gap-1.5">
+            <span class="font-bold text-base text-primary leading-tight">EnfermePráctica</span>
+            <span class="px-1.5 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-semibold text-[10px]">Clínico</span>
+          </div>
+          <span class="text-xs text-on-surface-variant font-medium" id="header-subtitle">Bitácora Formativa</span>
+        </div>
+      </div>
+
+      <!-- Database Actions Button & Profile -->
+      <div class="flex items-center gap-2">
+        <button id="btn-db-menu" title="Gestión de Base de Datos" class="p-2 rounded-full bg-surface-container-high text-primary hover:bg-surface-container-highest transition-colors">
+          <span class="material-symbols-outlined text-[20px]">database</span>
+        </button>
+        <div class="w-8 h-8 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center text-primary font-bold text-xs">
+          EP
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT CONTAINER (Mobile viewport centered) -->
+  <main class="flex-1 w-full max-w-md mx-auto pt-20 px-4">
+
+    <!-- ========================================== -->
+    <!-- VISTA 1: INICIO / RESUMEN CLÍNICO          -->
+    <!-- ========================================== -->
+    <section id="view-home" class="view-panel flex flex-col gap-4">
+      <!-- Saludo y Contexto -->
+      <div class="flex flex-col gap-1 pt-1">
+        <div class="flex items-center justify-between">
+          <h1 class="text-2xl font-bold text-on-surface">Hola, Estudiante 👋</h1>
+          <span class="px-2.5 py-1 rounded-full bg-surface-container-high text-primary font-semibold text-xs">
+            3° Semestre
+          </span>
+        </div>
+        <div class="flex items-center gap-1.5 text-on-surface-variant text-xs">
+          <span class="material-symbols-outlined text-[16px] text-primary">local_hospital</span>
+          <span>Prácticas Clínicas • Hospital General de Zona 48</span>
+        </div>
+      </div>
+
+      <!-- Aviso Ético de Privacidad -->
+      <div class="flex items-start gap-2.5 p-3 rounded-xl bg-surface-container-low border border-surface-container-high/50 text-xs">
+        <span class="material-symbols-outlined text-primary text-[20px] shrink-0 mt-0.5">verified_user</span>
+        <p class="text-on-surface-variant leading-relaxed">
+          Herramienta de autoaprendizaje formativo. <span class="font-bold text-on-surface">No almacena datos personales ni clínicos de pacientes.</span>
+        </p>
+      </div>
+
+      <!-- Tarjeta Bento: Progreso Global -->
+      <div class="p-4 rounded-2xl bg-surface-container-lowest shadow-sm border border-surface-container flex flex-col gap-3">
+        <div class="flex items-center justify-between">
+          <div>
+            <span class="text-xs uppercase tracking-wider text-on-surface-variant font-semibold">Avance Global</span>
+            <h2 class="text-xl font-bold text-on-surface" id="home-progress-title">50% del Ciclo Clínico</h2>
+          </div>
+          <!-- Gauge Circular -->
+          <div class="relative w-14 h-14 flex items-center justify-center">
+            <svg class="w-14 h-14 transform -rotate-90" viewBox="0 0 48 48">
+              <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="4.5" fill="transparent" class="text-surface-container"/>
+              <circle id="home-donut-circle" cx="24" cy="24" r="19" stroke="currentColor" stroke-width="4.5" fill="transparent"
+                      stroke-dasharray="119.38" stroke-dashoffset="59.69" stroke-linecap="round" class="text-primary transition-all duration-700"/>
+            </svg>
+            <span class="absolute text-xs font-bold text-primary" id="home-progress-ratio">12/24</span>
+          </div>
+        </div>
+
+        <!-- Barra segmentada -->
+        <div class="w-full h-2.5 rounded-full bg-surface-container overflow-hidden flex gap-0.5">
+          <div id="home-bar-dominados" class="bg-secondary h-full transition-all duration-700" style="width: 50%;"></div>
+          <div id="home-bar-practica" class="bg-tertiary-container h-full transition-all duration-700" style="width: 29%;"></div>
+          <div id="home-bar-pendientes" class="bg-outline-variant h-full transition-all duration-700" style="width: 21%;"></div>
+        </div>
+        <div class="flex justify-between items-center text-[11px] text-on-surface-variant font-medium">
+          <span>Meta: <strong id="home-total-count">24</strong> procedimientos</span>
+          <span class="text-secondary font-bold" id="home-completed-text">12 completados</span>
+        </div>
+      </div>
+
+      <!-- Resumen Tri-Status Bento -->
+      <div class="grid grid-cols-3 gap-2.5">
+        <!-- Dominados -->
+        <button onclick="window.app.navigateTab('procedures', 'dominado')" class="flex flex-col items-center justify-center p-3 rounded-2xl bg-surface-container-lowest border border-surface-container shadow-xs active:scale-95 transition-transform">
+          <div class="w-8 h-8 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary-container mb-1">
+            <span class="material-symbols-outlined text-[18px] icon-fill">check_circle</span>
+          </div>
+          <span class="text-xl font-bold text-on-surface" id="home-count-dominado">12</span>
+          <span class="text-[11px] font-semibold text-secondary">Dominados</span>
+        </button>
+
+        <!-- En práctica -->
+        <button onclick="window.app.navigateTab('procedures', 'practica')" class="flex flex-col items-center justify-center p-3 rounded-2xl bg-surface-container-lowest border border-surface-container shadow-xs active:scale-95 transition-transform">
+          <div class="w-8 h-8 rounded-full bg-tertiary-fixed flex items-center justify-center text-on-tertiary-fixed mb-1">
+            <span class="material-symbols-outlined text-[18px] icon-fill">autorenew</span>
+          </div>
+          <span class="text-xl font-bold text-on-surface" id="home-count-practica">7</span>
+          <span class="text-[11px] font-semibold text-tertiary">En práctica</span>
+        </button>
+
+        <!-- Por practicar -->
+        <button onclick="window.app.navigateTab('procedures', 'pendiente')" class="flex flex-col items-center justify-center p-3 rounded-2xl bg-surface-container-lowest border border-surface-container shadow-xs active:scale-95 transition-transform">
+          <div class="w-8 h-8 rounded-full bg-surface-container-high flex items-center justify-center text-outline mb-1">
+            <span class="material-symbols-outlined text-[18px]">bookmark</span>
+          </div>
+          <span class="text-xl font-bold text-on-surface" id="home-count-pendiente">5</span>
+          <span class="text-[11px] font-semibold text-on-surface-variant">Por practicar</span>
+        </button>
+      </div>
+
+      <!-- CTA Principal: Registrar Práctica -->
+      <button onclick="window.app.navigateTab('register')" class="w-full flex items-center justify-between p-4 rounded-2xl bg-primary text-on-primary shadow-md active:scale-[0.98] transition-all">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container">
+            <span class="material-symbols-outlined text-[22px]">edit_note</span>
+          </div>
+          <div class="flex flex-col text-left">
+            <span class="font-bold text-sm">Registrar nueva práctica</span>
+            <span class="text-xs text-primary-fixed-dim">Bitácora reflexiva sin datos de pacientes</span>
+          </div>
+        </div>
+        <span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+      </button>
+
+      <!-- Tip Formativo / Clínico -->
+      <div class="p-3.5 rounded-2xl bg-tertiary-fixed/30 border border-tertiary-fixed flex items-start gap-3">
+        <div class="w-8 h-8 rounded-full bg-tertiary-container text-on-tertiary-container flex items-center justify-center shrink-0 mt-0.5">
+          <span class="material-symbols-outlined text-[18px] icon-fill">lightbulb</span>
+        </div>
+        <div class="flex flex-col text-xs text-on-tertiary-fixed-variant">
+          <span class="font-bold text-tertiary text-xs">Recomendación pedagógica</span>
+          <p class="mt-0.5 leading-snug">
+            Antes de marcar una habilidad como <strong>Dominada</strong>, asegúrate de haberla realizado al menos 3 veces de forma autónoma siguiendo las guías de bioseguridad.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- VISTA 2: LISTA Y BÚSQUEDA DE PROCEDIMIENTOS-->
+    <!-- ========================================== -->
+    <section id="view-procedures" class="view-panel hidden flex flex-col gap-3">
+      <!-- Buscador -->
+      <div class="relative w-full">
+        <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-outline">
+          <span class="material-symbols-outlined text-[20px]">search</span>
+        </div>
+        <input id="input-search" type="search" placeholder="Buscar por nombre o nota..."
+               class="w-full h-12 pl-10 pr-10 bg-surface-container-lowest text-on-surface placeholder:text-on-surface-variant/60 text-sm rounded-2xl shadow-xs border border-surface-container focus:outline-none focus:border-primary transition-all"/>
+        <button id="btn-clear-search" class="hidden absolute inset-y-0 right-0 pr-3.5 flex items-center text-outline hover:text-on-surface">
+          <span class="material-symbols-outlined text-[18px]">cancel</span>
+        </button>
+      </div>
+
+      <!-- Filtros por Estado (Chips deslizables) -->
+      <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-0.5 -mx-4 px-4">
+        <button data-filter-status="all" class="chip-status flex-shrink-0 px-3.5 py-1.5 rounded-full text-xs font-semibold flex items-center gap-1.5 transition-all bg-primary text-on-primary">
+          <span>Todos</span>
+          <span id="badge-all" class="px-1.5 py-0.2 rounded-full bg-white/20 text-[10px]">24</span>
+        </button>
+        <button data-filter-status="dominado" class="chip-status flex-shrink-0 px-3.5 py-1.5 rounded-full text-xs font-semibold flex items-center gap-1.5 transition-all bg-surface-container-low text-on-surface-variant hover:bg-surface-container">
+          <span class="w-2 h-2 rounded-full bg-secondary"></span>
+          <span>Dominados</span>
+          <span id="badge-dominado" class="px-1.5 py-0.2 rounded-full bg-surface-container-high text-[10px]">12</span>
+        </button>
+        <button data-filter-status="practica" class="chip-status flex-shrink-0 px-3.5 py-1.5 rounded-full text-xs font-semibold flex items-center gap-1.5 transition-all bg-surface-container-low text-on-surface-variant hover:bg-surface-container">
+          <span class="w-2 h-2 rounded-full bg-tertiary"></span>
+          <span>En práctica</span>
+          <span id="badge-practica" class="px-1.5 py-0.2 rounded-full bg-surface-container-high text-[10px]">7</span>
+        </button>
+        <button data-filter-status="pendiente" class="chip-status flex-shrink-0 px-3.5 py-1.5 rounded-full text-xs font-semibold flex items-center gap-1.5 transition-all bg-surface-container-low text-on-surface-variant hover:bg-surface-container">
+          <span class="w-2 h-2 rounded-full bg-outline"></span>
+          <span>Por practicar</span>
+          <span id="badge-pendiente" class="px-1.5 py-0.2 rounded-full bg-surface-container-high text-[10px]">5</span>
+        </button>
+      </div>
+
+      <!-- Filtro por Categorías -->
+      <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar pb-1 -mx-4 px-4 text-xs">
+        <button data-filter-category="all" class="chip-category px-3 py-1 rounded-xl font-medium transition-colors bg-primary-fixed text-on-primary-fixed">
+          Todas las áreas
+        </button>
+        <button data-filter-category="valoracion" class="chip-category px-3 py-1 rounded-xl font-medium transition-colors bg-surface-container-lowest border border-surface-container text-on-surface-variant">
+          Valoración
+        </button>
+        <button data-filter-category="cuidados_basicos" class="chip-category px-3 py-1 rounded-xl font-medium transition-colors bg-surface-container-lowest border border-surface-container text-on-surface-variant">
+          Cuidados Básicos
+        </button>
+        <button data-filter-category="farmacologia" class="chip-category px-3 py-1 rounded-xl font-medium transition-colors bg-surface-container-lowest border border-surface-container text-on-surface-variant">
+          Farmacología
+        </button>
+        <button data-filter-category="asepsia_quirurgica" class="chip-category px-3 py-1 rounded-xl font-medium transition-colors bg-surface-container-lowest border border-surface-container text-on-surface-variant">
+          Asepsia & Quirúrgico
+        </button>
+      </div>
+
+      <!-- Resumen contador de resultados -->
+      <div class="flex items-center justify-between text-xs text-on-surface-variant px-1 pt-1">
+        <span id="results-count-text">Mostrando <strong>24</strong> procedimientos</span>
+        <button onclick="window.app.navigateTab('register')" class="text-primary font-semibold flex items-center gap-0.5 hover:underline">
+          <span class="material-symbols-outlined text-[16px]">add_circle</span> Nuevo
+        </button>
+      </div>
+
+      <!-- Lista dinámica de tarjetas de procedimientos -->
+      <div id="procedures-list" class="flex flex-col gap-2.5 pb-6">
+        <!-- Renderizado dinámico desde app.js -->
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- VISTA 3: REGISTRAR PRÁCTICA (FORMULARIO)   -->
+    <!-- ========================================== -->
+    <section id="view-register" class="view-panel hidden flex flex-col gap-4 pb-8">
+      <div class="flex flex-col gap-1">
+        <div class="flex items-center gap-2">
+          <span class="w-7 h-7 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center">
+            <span class="material-symbols-outlined text-[18px]">edit_note</span>
+          </span>
+          <span class="text-xs uppercase font-bold tracking-wider text-secondary">Bitácora Formativa</span>
+        </div>
+        <h2 class="text-2xl font-bold text-on-surface">Registrar Práctica</h2>
+        <p class="text-xs text-on-surface-variant">Documenta tu procedimiento clínico y celebra tu progreso.</p>
+      </div>
+
+      <!-- Advertencia Ética -->
+      <div class="flex items-start gap-2.5 p-3 rounded-2xl bg-tertiary-fixed/30 border border-tertiary-fixed/40 text-xs">
+        <span class="material-symbols-outlined text-tertiary text-[20px] shrink-0 mt-0.5 icon-fill">privacy_tip</span>
+        <div class="flex flex-col gap-0.5">
+          <strong class="text-tertiary">Compromiso ético y privacidad</strong>
+          <span class="text-on-tertiary-fixed-variant leading-snug">
+            No ingreses nombres, camas ni datos identificables de pacientes. Registro exclusivo para tu destreza.
+          </span>
+        </div>
+      </div>
+
+      <!-- Formulario -->
+      <form id="form-procedure" class="flex flex-col gap-3.5">
+        <!-- Campo: Nombre -->
+        <div class="flex flex-col gap-1.5">
+          <label for="input-proc-name" class="text-xs font-bold text-on-surface flex justify-between">
+            <span>Nombre del Procedimiento</span>
+            <span class="text-primary text-[11px]">Obligatorio</span>
+          </label>
+          <div class="relative flex items-center">
+            <span class="material-symbols-outlined absolute left-3.5 text-on-surface-variant text-[20px]">medical_services</span>
+            <input id="input-proc-name" type="text" required placeholder="Ej. Canalización de vía venosa periférica"
+                   class="w-full h-12 pl-11 pr-4 bg-surface-container-lowest text-on-surface text-sm rounded-2xl border border-surface-container shadow-xs focus:outline-none focus:border-primary transition-all"/>
+          </div>
+
+          <!-- Sugerencias Rápidas -->
+          <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-1 -mx-4 px-4">
+            <button type="button" onclick="window.app.fillSuggestion('Toma de Signos Vitales', 'valoracion')"
+                    class="shrink-0 px-2.5 py-1 rounded-xl bg-surface-container text-on-surface-variant text-xs active:bg-secondary-container transition-colors">
+              Signos Vitales
+            </button>
+            <button type="button" onclick="window.app.fillSuggestion('Canalización de Vía Periférica', 'farmacologia')"
+                    class="shrink-0 px-2.5 py-1 rounded-xl bg-surface-container text-on-surface-variant text-xs active:bg-secondary-container transition-colors">
+              Canalización IV
+            </button>
+            <button type="button" onclick="window.app.fillSuggestion('Curación Plana de Herida', 'asepsia_quirurgica')"
+                    class="shrink-0 px-2.5 py-1 rounded-xl bg-surface-container text-on-surface-variant text-xs active:bg-secondary-container transition-colors">
+              Curación Plana
+            </button>
+            <button type="button" onclick="window.app.fillSuggestion('Sondaje Vesical Foley', 'asepsia_quirurgica')"
+                    class="shrink-0 px-2.5 py-1 rounded-xl bg-surface-container text-on-surface-variant text-xs active:bg-secondary-container transition-colors">
+              Sonda Foley
+            </button>
+          </div>
+        </div>
+
+        <!-- Campo: Categoría -->
+        <div class="flex flex-col gap-1.5">
+          <label for="select-proc-category" class="text-xs font-bold text-on-surface">Área / Categoría</label>
+          <div class="relative flex items-center">
+            <span class="material-symbols-outlined absolute left-3.5 text-on-surface-variant text-[20px]">category</span>
+            <select id="select-proc-category" class="w-full h-12 pl-11 pr-8 bg-surface-container-lowest text-on-surface text-sm rounded-2xl border border-surface-container shadow-xs focus:outline-none focus:border-primary appearance-none cursor-pointer">
+              <option value="valoracion">Valoración</option>
+              <option value="cuidados_basicos">Cuidados Básicos</option>
+              <option value="farmacologia">Farmacología</option>
+              <option value="asepsia_quirurgica">Asepsia & Quirúrgico</option>
+            </select>
+            <span class="material-symbols-outlined absolute right-3 text-outline text-[18px] pointer-events-none">unfold_more</span>
+          </div>
+        </div>
+
+        <!-- Campo: Fecha -->
+        <div class="flex flex-col gap-1.5">
+          <label for="input-proc-date" class="text-xs font-bold text-on-surface">Fecha de Realización</label>
+          <div class="relative flex items-center">
+            <span class="material-symbols-outlined absolute left-3.5 text-on-surface-variant text-[20px]">calendar_today</span>
+            <input id="input-proc-date" type="date" required
+                   class="w-full h-12 pl-11 pr-4 bg-surface-container-lowest text-on-surface text-sm rounded-2xl border border-surface-container shadow-xs focus:outline-none focus:border-primary"/>
+          </div>
+        </div>
+
+        <!-- Campo: Nivel de Dominio Observado -->
+        <div class="flex flex-col gap-1.5">
+          <label class="text-xs font-bold text-on-surface">Nivel de Dominio</label>
+          <div class="flex flex-col gap-2" id="state-selector-group">
+            <!-- Opción: Por practicar -->
+            <label class="state-card flex items-center gap-3 p-3 rounded-2xl bg-surface-container-lowest border border-surface-container cursor-pointer transition-all">
+              <input type="radio" name="proc-state" value="pendiente" class="hidden"/>
+              <div class="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center text-outline">
+                <span class="material-symbols-outlined text-[18px]">bookmark</span>
+              </div>
+              <div class="flex-1">
+                <div class="font-bold text-xs text-on-surface">Por practicar</div>
+                <div class="text-[11px] text-on-surface-variant">Aún no realizada de forma autónoma</div>
+              </div>
+              <div class="radio-check w-4 h-4 rounded-full border-2 border-outline flex items-center justify-center"></div>
+            </label>
+
+            <!-- Opción: En práctica -->
+            <label class="state-card state-selected flex items-center gap-3 p-3 rounded-2xl bg-tertiary-fixed/40 border-2 border-tertiary cursor-pointer transition-all">
+              <input type="radio" name="proc-state" value="practica" checked class="hidden"/>
+              <div class="w-8 h-8 rounded-full bg-tertiary-container flex items-center justify-center text-on-tertiary-container">
+                <span class="material-symbols-outlined text-[18px] icon-fill">autorenew</span>
+              </div>
+              <div class="flex-1">
+                <div class="font-bold text-xs text-on-surface">En práctica</div>
+                <div class="text-[11px] text-on-surface-variant">Realizada con supervisión / afianzar</div>
+              </div>
+              <div class="radio-check w-4 h-4 rounded-full border-2 border-tertiary bg-tertiary flex items-center justify-center">
+                <div class="w-1.5 h-1.5 rounded-full bg-white"></div>
+              </div>
+            </label>
+
+            <!-- Opción: Dominado -->
+            <label class="state-card flex items-center gap-3 p-3 rounded-2xl bg-surface-container-lowest border border-surface-container cursor-pointer transition-all">
+              <input type="radio" name="proc-state" value="dominado" class="hidden"/>
+              <div class="w-8 h-8 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary-container">
+                <span class="material-symbols-outlined text-[18px] icon-fill">check_circle</span>
+              </div>
+              <div class="flex-1">
+                <div class="font-bold text-xs text-on-surface">Dominado</div>
+                <div class="text-[11px] text-on-surface-variant">Ejecutado con total soltura y asepsia</div>
+              </div>
+              <div class="radio-check w-4 h-4 rounded-full border-2 border-outline flex items-center justify-center"></div>
+            </label>
+          </div>
+        </div>
+
+        <!-- Campo: Nota corta reflexiva -->
+        <div class="flex flex-col gap-1.5">
+          <label for="input-proc-notes" class="text-xs font-bold text-on-surface flex justify-between">
+            <span>Nota Reflexiva / Aprendizaje</span>
+            <span class="text-on-surface-variant text-[11px]">Opcional</span>
+          </label>
+          <textarea id="input-proc-notes" rows="3" placeholder="Ej. Excelente localización del sitio de punción; mejorar la fijación con apósito transparente."
+                    class="w-full p-3 bg-surface-container-lowest text-on-surface text-sm rounded-2xl border border-surface-container shadow-xs focus:outline-none focus:border-primary resize-none"></textarea>
+        </div>
+
+        <!-- Botón Guardar -->
+        <button type="submit" class="w-full h-12 rounded-2xl bg-primary text-on-primary font-bold text-sm shadow-md active:scale-[0.98] transition-transform flex items-center justify-center gap-2 mt-2">
+          <span class="material-symbols-outlined text-[20px]">save</span>
+          <span>Guardar en Base de Datos</span>
+        </button>
+      </form>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- VISTA 4: MI PROGRESO Y HABILIDADES         -->
+    <!-- ========================================== -->
+    <section id="view-progress" class="view-panel hidden flex flex-col gap-4 pb-8">
+      <div class="flex items-center justify-between">
+        <div>
+          <span class="text-xs uppercase font-bold tracking-wider text-primary">Plan Formativo 2026</span>
+          <h2 class="text-2xl font-bold text-on-surface">Mi Progreso Clínico</h2>
+        </div>
+        <div class="w-10 h-10 rounded-2xl bg-surface-container-highest flex items-center justify-center text-primary">
+          <span class="material-symbols-outlined text-[22px]">school</span>
+        </div>
+      </div>
+
+      <!-- Tarjeta Donut Chart Central -->
+      <div class="p-5 rounded-3xl bg-surface-container-lowest border border-surface-container shadow-sm flex flex-col items-center gap-3">
+        <div class="w-full flex items-center justify-between">
+          <span class="text-xs font-bold text-on-surface-variant">Competencias del Catálogo</span>
+          <span class="px-2.5 py-0.5 rounded-full bg-secondary-container text-on-secondary-container text-[11px] font-bold">
+            Semana 10
+          </span>
+        </div>
+
+        <!-- SVG Donut Chart interactivo -->
+        <div class="relative w-44 h-44 flex items-center justify-center my-1">
+          <svg class="w-full h-full -rotate-90 transform" viewBox="0 0 160 160">
+            <!-- Background ring -->
+            <circle cx="80" cy="80" r="68" stroke="#E5EEFF" stroke-width="15" fill="transparent"/>
+            <!-- Dominados arc (circumference = 427.25) -->
+            <circle id="progress-donut-dominados" cx="80" cy="80" r="68" stroke="#008378" stroke-width="15" fill="transparent"
+                    stroke-dasharray="213.6 427.3" stroke-dashoffset="0" stroke-linecap="round" class="transition-all duration-700"/>
+            <!-- En practica arc -->
+            <circle id="progress-donut-practica" cx="80" cy="80" r="68" stroke="#a36700" stroke-width="15" fill="transparent"
+                    stroke-dasharray="123.9 427.3" stroke-dashoffset="-213.6" stroke-linecap="round" class="transition-all duration-700"/>
+            <!-- Por practicar arc -->
+            <circle id="progress-donut-pendientes" cx="80" cy="80" r="68" stroke="#bcc9c6" stroke-width="15" fill="transparent"
+                    stroke-dasharray="89.7 427.3" stroke-dashoffset="-337.5" stroke-linecap="round" class="transition-all duration-700"/>
+          </svg>
+          <div class="absolute inset-0 flex flex-col items-center justify-center text-center">
+            <span class="text-3xl font-extrabold text-primary" id="progress-percentage-hero">50%</span>
+            <span class="text-xs font-bold text-on-surface-variant mt-0.5">Autonomía</span>
+            <span class="text-[10px] text-outline" id="progress-ratio-hero">12 de 24 logrados</span>
+          </div>
+        </div>
+
+        <!-- Leyenda -->
+        <div class="flex items-center justify-around w-full text-xs pt-1 border-t border-surface-container">
+          <div class="flex items-center gap-1.5">
+            <span class="w-2.5 h-2.5 rounded-full bg-primary-container"></span>
+            <span class="text-on-surface font-semibold" id="leg-dominado">50% Dominado</span>
+          </div>
+          <div class="flex items-center gap-1.5">
+            <span class="w-2.5 h-2.5 rounded-full bg-tertiary-container"></span>
+            <span class="text-on-surface font-semibold" id="leg-practica">29% En curso</span>
+          </div>
+          <div class="flex items-center gap-1.5">
+            <span class="w-2.5 h-2.5 rounded-full bg-outline-variant"></span>
+            <span class="text-on-surface font-semibold" id="leg-pendiente">21% Pendiente</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Desglose por Área Clínica -->
+      <div class="flex flex-col gap-2.5">
+        <h3 class="text-xs font-bold uppercase tracking-wider text-on-surface-variant px-1">Progreso por Área Clínica</h3>
+        <div id="category-progress-list" class="flex flex-col gap-2">
+          <!-- Renderizado dinámico desde app.js -->
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ========================================== -->
+  <!-- MODAL: GESTIÓN DE BASE DE DATOS LOCAL      -->
+  <!-- ========================================== -->
+  <div id="modal-db" class="fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-end sm:items-center justify-center p-4 hidden">
+    <div class="bg-surface-container-lowest w-full max-w-sm rounded-3xl p-5 shadow-2xl flex flex-col gap-4 border border-surface-container animate-fade-in">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <span class="material-symbols-outlined text-primary text-[24px]">database</span>
+          <h3 class="font-bold text-base text-on-surface">Base de Datos Local</h3>
+        </div>
+        <button id="btn-close-modal-db" class="text-outline hover:text-on-surface p-1">
+          <span class="material-symbols-outlined text-[20px]">close</span>
+        </button>
+      </div>
+
+      <p class="text-xs text-on-surface-variant leading-relaxed">
+        Tus datos se guardan de forma permanente en tu dispositivo mediante <strong>IndexedDB</strong>, siguiendo el esquema relacional SQL definido en el repositorio.
+      </p>
+
+      <div class="flex flex-col gap-2 text-xs">
+        <!-- Exportar Copia de Seguridad -->
+        <button id="btn-export-db" class="w-full py-2.5 px-3 rounded-xl bg-surface-container-low hover:bg-surface-container font-semibold text-primary flex items-center justify-between border border-surface-container">
+          <span class="flex items-center gap-2">
+            <span class="material-symbols-outlined text-[18px]">download</span>
+            Descargar Copia de Seguridad (.json)
+          </span>
+          <span class="material-symbols-outlined text-[16px]">chevron_right</span>
+        </button>
+
+        <!-- Restaurar Datos Base -->
+        <button id="btn-reset-db" class="w-full py-2.5 px-3 rounded-xl bg-error-container/40 hover:bg-error-container/70 font-semibold text-error flex items-center justify-between">
+          <span class="flex items-center gap-2">
+            <span class="material-symbols-outlined text-[18px]">restart_alt</span>
+            Restaurar Catálogo Académico Inicial
+          </span>
+          <span class="material-symbols-outlined text-[16px]">chevron_right</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST DE NOTIFICACIÓN FLOTANTE -->
+  <div id="toast-msg" class="fixed bottom-24 left-1/2 -translate-x-1/2 z-50 bg-inverse-surface text-inverse-on-surface px-4 py-2.5 rounded-full text-xs font-semibold shadow-lg flex items-center gap-2 transition-all opacity-0 pointer-events-none duration-300">
+    <span class="material-symbols-outlined text-[18px] text-secondary-container" id="toast-icon">check_circle</span>
+    <span id="toast-text">Cambio guardado</span>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- BARRA DE NAVEGACIÓN INFERIOR (BOTTOM TABS) -->
+  <!-- ========================================== -->
+  <nav class="fixed bottom-0 left-0 right-0 z-40 bg-surface/95 backdrop-blur-lg border-t border-surface-container-high/80">
+    <div class="max-w-md mx-auto h-16 px-4 flex items-center justify-around">
+      <!-- Tab 1: Inicio -->
+      <button data-tab="home" class="tab-btn flex flex-col items-center justify-center flex-1 h-full text-primary transition-colors">
+        <span class="material-symbols-outlined text-[24px] tab-icon icon-fill">home</span>
+        <span class="text-[10px] font-bold mt-0.5">Inicio</span>
+      </button>
+
+      <!-- Tab 2: Procedimientos -->
+      <button data-tab="procedures" class="tab-btn flex flex-col items-center justify-center flex-1 h-full text-outline transition-colors hover:text-on-surface">
+        <span class="material-symbols-outlined text-[24px] tab-icon">checklist</span>
+        <span class="text-[10px] font-semibold mt-0.5">Prácticas</span>
+      </button>
+
+      <!-- Botón Flotante Central: Registrar -->
+      <button data-tab="register" class="tab-btn flex flex-col items-center justify-center -mt-5 transition-transform active:scale-95">
+        <div class="w-12 h-12 rounded-full bg-primary text-on-primary flex items-center justify-center shadow-lg border-2 border-surface">
+          <span class="material-symbols-outlined text-[26px]">add</span>
+        </div>
+        <span class="text-[10px] font-bold text-primary mt-0.5">Registrar</span>
+      </button>
+
+      <!-- Tab 4: Mi Progreso -->
+      <button data-tab="progress" class="tab-btn flex flex-col items-center justify-center flex-1 h-full text-outline transition-colors hover:text-on-surface">
+        <span class="material-symbols-outlined text-[24px] tab-icon">bar_chart</span>
+        <span class="text-[10px] font-semibold mt-0.5">Progreso</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Script Principal de la Aplicación -->
+  <script type="module" src="./js/app.js"></script>
+</body>
+</html>
