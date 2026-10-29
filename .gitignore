@@ -1,0 +1,13 @@
+# Logs y temporales
+*.log
+*.tmp
+*~
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Entorno de desarrollo
+.vscode/
+.idea/

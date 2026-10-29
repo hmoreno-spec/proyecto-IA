@@ -4,7 +4,17 @@
 -- Cumplimiento estricto: Cero almacenamiento de datos de pacientes (PII / PHI)
 -- ====================================================================
 
--- 1. Tabla de Categorías / Áreas Clínicas
+-- 1. Tabla de Perfil del Estudiante (Personalizable)
+CREATE TABLE IF NOT EXISTS perfil_estudiante (
+    id VARCHAR(50) PRIMARY KEY DEFAULT 'principal',
+    nombre VARCHAR(150) DEFAULT '',
+    semestre VARCHAR(50) DEFAULT '1er Semestre',
+    institucion VARCHAR(200) DEFAULT '',
+    lugar_practica VARCHAR(200) DEFAULT '',
+    actualizado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- 2. Tabla de Categorías / Áreas Clínicas
 CREATE TABLE IF NOT EXISTS categorias (
     id VARCHAR(50) PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL UNIQUE,
@@ -14,22 +24,22 @@ CREATE TABLE IF NOT EXISTS categorias (
     orden INT DEFAULT 0
 );
 
--- 2. Tabla Principal de Procedimientos Registrados
+-- 3. Tabla Principal de Procedimientos Registrados
 CREATE TABLE IF NOT EXISTS procedimientos (
     id VARCHAR(36) PRIMARY KEY,
     nombre VARCHAR(200) NOT NULL,
     categoria_id VARCHAR(50) NOT NULL,
-    fecha DATE NOT NULL,
-    estado VARCHAR(20) NOT NULL CHECK (estado IN ('pendiente', 'practica', 'dominado')),
-    notas TEXT,
-    rotacion_lugar VARCHAR(150) DEFAULT 'Hospital General de Zona 48',
-    semestre VARCHAR(50) DEFAULT '3er Semestre',
+    fecha DATE,
+    estado VARCHAR(20) NOT NULL DEFAULT 'pendiente' CHECK (estado IN ('pendiente', 'practica', 'dominado')),
+    notas TEXT DEFAULT '',
+    rotacion_lugar VARCHAR(150) DEFAULT '',
+    semestre VARCHAR(50) DEFAULT '',
     creado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     actualizado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (categoria_id) REFERENCES categorias(id) ON UPDATE CASCADE ON DELETE RESTRICT
 );
 
--- 3. Tabla de Historial de Evolución de Estados
+-- 4. Tabla de Historial de Evolución de Estados
 CREATE TABLE IF NOT EXISTS historial_estados (
     id VARCHAR(36) PRIMARY KEY,
     procedimiento_id VARCHAR(36) NOT NULL,
@@ -50,14 +60,17 @@ CREATE INDEX IF NOT EXISTS idx_procedimientos_nombre ON procedimientos(nombre);
 -- VISTAS DE ESTADÍSTICAS Y MÉTRICAS FORMATIVAS
 -- ====================================================================
 
--- Vista de resumen del progreso general
+-- Vista de resumen del progreso general (comienza en 0% para estudiantes nuevos)
 CREATE VIEW IF NOT EXISTS vista_resumen_progreso AS
 SELECT 
     COUNT(*) AS total_procedimientos,
     SUM(CASE WHEN estado = 'dominado' THEN 1 ELSE 0 END) AS dominados,
     SUM(CASE WHEN estado = 'practica' THEN 1 ELSE 0 END) AS en_practica,
     SUM(CASE WHEN estado = 'pendiente' THEN 1 ELSE 0 END) AS por_practicar,
-    ROUND((SUM(CASE WHEN estado = 'dominado' THEN 1.0 ELSE 0.0 END) / COUNT(*)) * 100, 1) AS porcentaje_dominio
+    CASE 
+        WHEN COUNT(*) > 0 THEN ROUND((SUM(CASE WHEN estado = 'dominado' THEN 1.0 ELSE 0.0 END) / COUNT(*)) * 100, 1)
+        ELSE 0.0 
+    END AS porcentaje_dominio
 FROM procedimientos;
 
 -- Vista detallada de procedimientos con datos de categoría
@@ -78,4 +91,4 @@ SELECT
     p.actualizado_en
 FROM procedimientos p
 LEFT JOIN categorias c ON p.categoria_id = c.id
-ORDER BY p.fecha DESC, p.creado_en DESC;
+ORDER BY p.creado_en ASC;
