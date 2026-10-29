@@ -77,6 +77,26 @@
     .icon-fill {
       font-variation-settings: 'FILL' 1;
     }
+    @media print {
+      header, nav, #modal-db, #toast-msg, button, .no-print {
+        display: none !important;
+      }
+      body {
+        background: white !important;
+        color: black !important;
+        padding-bottom: 0 !important;
+      }
+      main {
+        max-width: 100% !important;
+        padding-top: 10px !important;
+      }
+      .view-panel {
+        display: block !important;
+      }
+      .border, .border-surface-container {
+        border-color: #ccc !important;
+      }
+    }
   </style>
 </head>
 
@@ -519,6 +539,12 @@
           <!-- Renderizado dinámico desde app.js -->
         </div>
       </div>
+
+      <!-- Acción: Generar Reporte Imprimible -->
+      <button onclick="window.app.printReport()" class="w-full py-3 px-4 rounded-2xl bg-surface-container-high hover:bg-surface-container-highest text-primary font-bold text-xs flex items-center justify-center gap-2 border border-surface-container transition-all">
+        <span class="material-symbols-outlined text-[18px]">print</span>
+        <span>Imprimir / Exportar Reporte para Tutor</span>
+      </button>
     </section>
 
   </main>

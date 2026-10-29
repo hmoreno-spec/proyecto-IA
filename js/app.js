@@ -359,7 +359,14 @@ class NursingApp {
               </div>
               <h3 class="font-bold text-sm text-on-surface leading-snug">${p.nombre}</h3>
             </div>
-            ${statusBadge}
+            <div class="flex items-center gap-1.5">
+              ${statusBadge}
+              <button onclick="window.app.deleteProcedure('${p.id}', '${p.nombre.replace(/'/g, "\\'")}')" 
+                      title="Eliminar registro"
+                      class="p-1 rounded-full text-outline hover:text-error hover:bg-error-container/30 transition-colors">
+                <span class="material-symbols-outlined text-[16px]">delete</span>
+              </button>
+            </div>
           </div>
 
           ${p.notas ? `
@@ -392,6 +399,22 @@ class NursingApp {
         </article>
       `;
     }).join('');
+  }
+
+  async deleteProcedure(id, name) {
+    if (confirm(`¿Deseas eliminar el registro de "${name}"?`)) {
+      try {
+        await clinicalDb.deleteProcedure(id);
+        this.showToast('Procedimiento eliminado', 'delete');
+      } catch (err) {
+        console.error('Error al eliminar:', err);
+        this.showToast('No se pudo eliminar el procedimiento', 'error');
+      }
+    }
+  }
+
+  printReport() {
+    window.print();
   }
 
   async changeStatus(id, newStatus) {
